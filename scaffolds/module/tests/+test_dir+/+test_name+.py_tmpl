@@ -1,0 +1,21 @@
+# -*- coding: utf-8 -*-
+
+from {{package}}.constants import *
+
+import unittest
+import logging
+
+
+from {{package}} import cfg
+from {{package}} import util
+from {{package}}.util import Error
+from {{pkg_name}} import {{module_name}}
+from tests import Object
+
+
+class Test{{class_name}}(unittest.TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
