@@ -18,6 +18,8 @@ from beaker.middleware import SessionMiddleware
 
 from agri_med_backend import cfg
 from agri_med_backend import util
+from agri_med_backend.http_handlers.upload_img_handler import upload_img_handler
+from agri_med_backend.http_handlers.submit_handler import submit_handler
 
 app = Bottle()
 
@@ -25,6 +27,20 @@ app = Bottle()
 @app.get('/')
 def dummy():
     return _process_result("1")
+
+
+@app.post('/upload_img')
+def upload_img():
+    params = _process_file_params()
+    result = upload_img_handler(params)
+    return _process_result(result)
+
+
+@app.post('/submit')
+def submit():
+    params = _process_params()
+    result = submit_handler(params)
+    return _process_result(result)
 
 
 def _process_params():
