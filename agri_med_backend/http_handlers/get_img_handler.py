@@ -18,3 +18,5 @@ def get_img_handler(params):
         content = f.read()
 
     return content
+
+http://www.ee.oulu.fi/%E2%88%BCdherrera/kinect/
