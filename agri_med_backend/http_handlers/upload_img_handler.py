@@ -24,7 +24,7 @@ def upload_img_handler(params, files):
         if basename[0] != '-':
             break
 
-    filename = cfg.config.get('img_dir', '/data/img') + '/' + basename
+    filename = cfg.config.get('img_dir', '/data/agri_med/img') + '/' + basename
 
     cfg.logger.warning('to write file: the_file: %s name: %s basename: %s filename: %s', the_file, the_file.name, basename, filename)
     with open(filename, 'w') as f:
