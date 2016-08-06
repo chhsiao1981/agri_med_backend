@@ -62,7 +62,15 @@ def _init_logger(params):
     if not log_ini_filename:
         return
 
-    logging.config.fileConfig(log_ini_filename, disable_existing_loggers=False)
+    process_name = params.get('process_name', '')
+    shard_idx = 0
+    try:
+        shard_idx = int(params.get('shard_idx', '0'))
+    except Exception as e:
+        logging.error('unable to int shard_idx: e: params: %s e: %s', params, e)
+        shard_idx = 0
+
+    logging.config.fileConfig(log_ini_filename, defaults={'idx': shard_idx, 'process_name': process_name})
 
 
 def _init_ini_file(params):
