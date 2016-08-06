@@ -10,6 +10,7 @@ import time
 import pymongo
 from pymongo import MongoClient
 import ujson as json
+import os
 
 _LOGGER_NAME = "agri_med_backend"
 logger = None
@@ -40,6 +41,9 @@ def init(params):
         return
 
     IS_INIT = True
+
+    process_name = re.sub(ur'\.py$', '', os.path.basename(sys.argv[0]))
+    params['process_name'] = process_name
 
     _init_logger(params)
     _init_ini_file(params)
