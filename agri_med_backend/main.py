@@ -19,6 +19,7 @@ from beaker.middleware import SessionMiddleware
 from agri_med_backend import cfg
 from agri_med_backend import util
 from agri_med_backend.http_handlers.upload_img_handler import upload_img_handler
+from agri_med_backend.http_handlers.get_img_handler import get_img_handler
 from agri_med_backend.http_handlers.submit_handler import submit_handler
 
 app = Bottle()
@@ -31,9 +32,17 @@ def dummy():
 
 @app.post('/upload_img')
 def upload_img():
-    params = _process_file_params()
-    result = upload_img_handler(params)
+    params = _process_params()
+    files = _process_files()
+    result = upload_img_handler(params, files)
     return _process_result(result)
+
+
+@app.get('/get_img')
+def get_img():
+    params = _process_params()
+    result = get_img_handler(params)
+    return _process_mime_result('image/png', result)
 
 
 @app.post('/submit')
@@ -55,6 +64,14 @@ def _process_body_request():
     f = request.body
     f.seek(0)
     return f.read()
+
+
+def _process_files():
+    files = request.files
+    cfg.logger.warning('files: %s', files)
+    files = {each_file.filename: each_file for each_file in files}
+
+    return files
 
 
 def _process_result(the_obj):
