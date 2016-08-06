@@ -111,6 +111,7 @@ def _main():
 
     cfg.init({"port": args.port, "ini_filename": args.ini, 'log_filename': args.log_filename})
 
+    '''
     session_opts = {
         'session.cookie_expires': True,
         'session.encrypt_key': cfg.config.get('session_encrypt_key', ''),
@@ -121,6 +122,7 @@ def _main():
     }
 
     app = SessionMiddleware(app, session_opts)
+    '''
 
     run(app, host='0.0.0.0', port=cfg.config.get('port'), server='gevent')
 
