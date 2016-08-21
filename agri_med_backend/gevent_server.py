@@ -10,7 +10,7 @@ from bottle import ServerAdapter
 from gevent import Greenlet
 from gevent import wsgi, pywsgi, local
 
-from app import cfg
+from agri_med_backend import cfg
 
 class GeventServer(ServerAdapter):
     """ Untested. Options:
