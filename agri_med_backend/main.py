@@ -29,6 +29,15 @@ app = Bottle()
 def dummy():
     return _process_result("1")
 
+@app.get('/2')
+def dummy2():
+    response.set_header('Accept', '*')
+    response.set_header('Access-Control-Allow-Headers', 'Content-Type, Accept')
+    response.set_header('Access-Control-Allow-Origin', '*')
+    response.set_header('Access-Control-Allow-Methods', '*')
+    response.content_type = 'application/json'
+    return '{"path":"\/get_img?name=1471758150032b445c57fdbee4c8e831192a86132698ed99461d2","success":true}'
+
 
 @app.post('/upload/img')
 def upload_img():
