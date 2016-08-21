@@ -32,7 +32,8 @@ def upload_img_handler(params, files):
         content = the_file.file.read()
         with Image(blob=content) as original:
             converted = original.convert(format='png')
-            converted.save(filename)
+            with open(filename, 'w') as f:
+                converted.save(f)
     except Exception as e:
         cfg.logger.error('unable to save: filename: %s e: %s', filename, e)
 
