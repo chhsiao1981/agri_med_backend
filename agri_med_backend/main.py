@@ -52,7 +52,7 @@ def upload_img():
 def get_img():
     params = _process_params()
     result = get_img_handler(params)
-    return _process_mime_result('image/png', result)
+    return _process_mime_result('image/jpeg', result)
 
 
 @app.post('/submit')
