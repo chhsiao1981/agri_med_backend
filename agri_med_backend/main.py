@@ -69,8 +69,8 @@ def _process_body_request():
 def _process_files():
     files = request.files
     cfg.logger.warning('files: %s', files)
-    files = {each_file.filename: each_file for each_file in files}
-
+    for filename, each_file in files.iteritems():
+        cfg.logger.warning('filename: %s each_file: %s', filename, each_file)
     return files
 
 
