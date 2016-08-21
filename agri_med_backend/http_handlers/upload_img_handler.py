@@ -17,8 +17,6 @@ def upload_img_handler(params, files):
     if not the_file:
         return {'success': False, 'errorMsg': 'no file'}
 
-    the_file = the_file.file
-
     basename = ''
     the_timestamp = util.get_timestamp()
     while True:
@@ -29,9 +27,10 @@ def upload_img_handler(params, files):
     filename = cfg.config.get('img_dir', '/data/agri_med/img') + '/' + basename
 
     cfg.logger.warning('to write file: the_file: %s name: %s basename: %s filename: %s', the_file, the_file.name, basename, filename)
-    with open(filename, 'w') as f:
-        for chunk in the_file.chunks():
-            f.write(chunk)
+    try:
+        the_file.save(filename)
+    except Exception as e:
+        cfg.logger.error('unable to save: filename: %s e: %s', filename, e)
 
     path = '/get_img?name=%s' % (basename)
 
