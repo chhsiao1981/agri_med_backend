@@ -30,7 +30,7 @@ def dummy():
     return _process_result("1")
 
 
-@app.post('/upload_img')
+@app.post('/upload/img')
 def upload_img():
     params = _process_params()
     files = _process_files()
@@ -38,7 +38,7 @@ def upload_img():
     return _process_result(result)
 
 
-@app.get('/get_img')
+@app.get('/get/img')
 def get_img():
     params = _process_params()
     result = get_img_handler(params)
