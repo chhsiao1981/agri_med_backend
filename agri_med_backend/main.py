@@ -21,7 +21,6 @@ from agri_med_backend import util
 from agri_med_backend.http_handlers.upload_img_handler import upload_img_handler
 from agri_med_backend.http_handlers.get_img_handler import get_img_handler
 from agri_med_backend.http_handlers.submit_handler import submit_handler
-from agri_med_backend.gevent_server import GeventServer
 
 app = Bottle()
 
@@ -141,7 +140,7 @@ def _main():
     app = SessionMiddleware(app, session_opts)
     '''
 
-    run(app, host='0.0.0.0', port=cfg.config.get('port'), server=GeventServer)
+    run(app, host='0.0.0.0', port=cfg.config.get('port'), server='gevent')
 
 
 if __name__ == '__main__':
