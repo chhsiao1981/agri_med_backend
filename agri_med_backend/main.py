@@ -86,6 +86,9 @@ def _process_files():
 
 def _process_result(the_obj):
     response.set_header('Accept', '*')
+    response.set_header(name="Access-Control-Allow-Origin", value=request.get_header("Origin","*"))
+    if request.get_header("Origin",""):
+        response.set_header(name="Access-Control-Allow-Credentials", value="true")
     response.set_header('Access-Control-Allow-Headers', 'Content-Type, Accept')
     response.set_header('Access-Control-Allow-Origin', '*')
     response.set_header('Access-Control-Allow-Methods', '*')
