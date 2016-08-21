@@ -28,8 +28,7 @@ def upload_img_handler(params, files):
 
     cfg.logger.warning('to write file: the_file: %s name: %s basename: %s filename: %s', the_file, the_file.name, basename, filename)
     try:
-        with open(the_file.file, 'r') as f:
-            content = f.read()
+        content = the_file.file.read()
         with Image(blob=content) as original:
             converted = original.convert(format='png')
             converted.save(filename)
