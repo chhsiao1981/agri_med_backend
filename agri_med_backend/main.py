@@ -35,6 +35,7 @@ def upload_img():
     params = _process_params()
     files = _process_files()
     result = upload_img_handler(params, files)
+    cfg.logger.warning('result: %s', result)
     return _process_result(result)
 
 
