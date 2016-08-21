@@ -34,7 +34,7 @@ def upload_img_handler(params, files):
             width, height = original.size
             if width >= 600:
                 new_height = int(height * 600 / width)
-                original = original.resize(width=600, height=new_height)
+                original.resize(width=600, height=new_height)
             converted = original.convert(format='png')
             with open(filename, 'w') as f:
                 converted.save(f)
