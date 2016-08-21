@@ -81,7 +81,11 @@ def _process_result(the_obj):
     response.set_header('Access-Control-Allow-Origin', '*')
     response.set_header('Access-Control-Allow-Methods', '*')
     response.content_type = 'application/json'
-    return util.json_dumps(the_obj)
+    result = util.json_dumps(the_obj)
+
+    cfg.logger.warning('result: %s', result)
+
+    return result
 
 
 def _process_mime_result(content_type, content):
