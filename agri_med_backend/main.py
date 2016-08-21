@@ -91,7 +91,6 @@ def _process_result(the_obj):
     if request.get_header("Origin",""):
         response.set_header(name="Access-Control-Allow-Credentials", value="true")
     response.set_header('Access-Control-Allow-Headers', 'Content-Type, Accept')
-    response.set_header('Access-Control-Allow-Origin', '*')
     response.set_header('Access-Control-Allow-Methods', '*')
     response.content_type = 'application/json'
     result = util.json_dumps(the_obj)
