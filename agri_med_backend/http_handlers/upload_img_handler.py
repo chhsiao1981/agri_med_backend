@@ -17,6 +17,8 @@ def upload_img_handler(params, files):
     if not the_file:
         return {'success': False, 'errorMsg': 'no file'}
 
+    the_file = the_file.file
+
     basename = ''
     the_timestamp = util.get_timestamp()
     while True:
