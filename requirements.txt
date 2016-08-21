@@ -1,5 +1,5 @@
 bottle==0.12.7
-ujson==1.33
+ujson==1.35
 pytz==2014.4
 pep8==1.5.7
 pandas==0.14.1
