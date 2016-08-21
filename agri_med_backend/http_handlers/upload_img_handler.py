@@ -32,6 +32,6 @@ def upload_img_handler(params, files):
     except Exception as e:
         cfg.logger.error('unable to save: filename: %s e: %s', filename, e)
 
-    path = '/get_img?name=%s' % (basename)
+    path = '/get/img?name=%s' % (basename)
 
     return {'success': True, 'path': path}
