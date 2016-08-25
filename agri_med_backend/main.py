@@ -39,6 +39,14 @@ def dummy2():
     return '{"path":"\/get_img?name=1471758150032b445c57fdbee4c8e831192a86132698ed99461d2","success":true}'
 
 
+@app.post('/upload/data')
+def upload_data():
+    params = _process_params()
+    result = upload_data_handler(params)
+    cfg.logger.warning('result: %s', result)
+    return _process_result(result)
+
+
 @app.post('/upload/img')
 def upload_img():
     params = _process_params()
