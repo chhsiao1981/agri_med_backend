@@ -20,6 +20,7 @@ from agri_med_backend import cfg
 from agri_med_backend import util
 from agri_med_backend.http_handlers.upload_img_handler import upload_img_handler
 from agri_med_backend.http_handlers.get_img_handler import get_img_handler
+from agri_med_backend.http_handlers.upload_data_handler import upload_data_handler
 from agri_med_backend.http_handlers.submit_handler import submit_handler
 
 app = Bottle()

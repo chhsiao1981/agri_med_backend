@@ -5,8 +5,11 @@ import pandas as pd
 import numpy as np
 import re
 import smtplib
+import email
 from email.mime.text import MIMEText
 from jinja2 import Template
+import pdfkit
+import urllib
 
 from agri_med_backend.constants import *
 from agri_med_backend import cfg
@@ -21,10 +24,10 @@ def upload_data_handler(params):
     address = params.get('address', '')
 
     # email
-    email = params.get('email', '')
+    email_address = params.get('email', '')
 
     # 作物
-    crop = params.('crop', '')
+    crop = params.get('crop', '')
 
     # 品種
     variety = params.get('variety', '')
@@ -59,25 +62,47 @@ def upload_data_handler(params):
     # 根部
     root_view = params.get('rootView', [])
 
-    content, files = _format_email(name, address, email, crop, variety, before, day, sick_day, acre, sick_acre, comment, whole_view, single_view, feature_view, root_view)
+    content, filename = _format_email(name, address, email_address, crop, variety, before, day, sick_day, acre, sick_acre, comment, whole_view, single_view, feature_view, root_view)
 
-    error = _send_email(content, files)
+    error = _send_email(content, filename, email_address)
     if error:
         return {'success': False, 'errorMsg': error}
 
     return {'success': True, 'errorMsg': ''}
 
 
-def _format_email(name, address, email, crop, variety, before, day, sick_day, acre, sick_acre, comment, whole_view, single_view, feature_view, root_view):
+def _format_email(name, address, email_address, crop, variety, before, day, sick_day, acre, sick_acre, comment, whole_view, single_view, feature_view, root_view):
     with open('templates/template.html', 'r') as f:
         the_template = Template(f.read())
 
+    the_map = {
+        'name': name,
+        'address': address,
+        'email': email_address,
+        'crop': crop,
+        'variety': variety,
+        'before': before,
+        'day': day,
+        'sick_day': sick_day,
+        'acre': acre,
+        'sick_acre': sick_acre,
+        'comment': comment,
+        'whole_view': whole_view,
+        'single_view': single_view,
+        'feature_view': feature_view,
+        'root_view': root_view,
+    }
+
     content = the_template.render(the_map).strip()
 
-    return content, []
+    filename = cfg.config.get('pdf_dir', '/data/agri_med/pdf') + '/' + util.gen_random_string() + '.pdf'
+
+    pdfkit.from_string(content, filename)
+
+    return content, filename
 
 
-def _send_email(content, files, email):
+def _send_email(content, filename, email_address):
     if not content:
         return None
 
@@ -85,10 +110,11 @@ def _send_email(content, files, email):
 
     title = '[醫農] 您所回報的植物病蟲害資訊已準備好了'
 
-    msg = MIMEText(str(text))
     msg['From'] = 'noreply@roadpin.tw'
-    msg['To'] = email
+    msg['To'] = email_address
     msg['Subject'] = title
+
+    file_msg = email.mime.base.MIMEBase('image', 'png')
 
     try:
         s = smtplib.SMTP(cfg.config.get('error_smtp_host', 'msa.hinet.net'))
