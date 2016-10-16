@@ -14,6 +14,7 @@ import urllib
 from agri_med_backend.constants import *
 from agri_med_backend import cfg
 from agri_med_backend import util
+from agri_med_backend.util import Error
 
 
 def upload_data_handler(params):
@@ -73,7 +74,8 @@ def upload_data_handler(params):
 
 def _format_email(name, address, email_address, crop, variety, before, day, sick_day, acre, sick_acre, comment, whole_view, single_view, feature_view, root_view):
     with open('templates/template.html', 'r') as f:
-        the_template = Template(f.read())
+        the_str = f.read()
+        the_template = Template(the_str.decode('utf-8'))
 
     the_map = {
         'name': name,
@@ -102,7 +104,7 @@ def _format_email(name, address, email_address, crop, variety, before, day, sick
     return content, filename
 
 
-def _send_email(content, filename, email_address):
+def _send_email(content, filename, email_address, mail_list_cfg='default_mail_list'):
     if not content:
         return None
 
@@ -110,6 +112,7 @@ def _send_email(content, filename, email_address):
 
     title = '[醫農] 您所回報的植物病蟲害資訊已準備好了'
 
+    msg = email.MIMEMultipart.MIMEMultipart()
     msg['From'] = 'noreply@roadpin.tw'
     msg['To'] = email_address
     msg['Subject'] = title
@@ -117,7 +120,7 @@ def _send_email(content, filename, email_address):
     file_msg = email.mime.base.MIMEBase('image', 'png')
 
     try:
-        s = smtplib.SMTP(cfg.config.get('error_smtp_host', 'msa.hinet.net'))
+        s = smtplib.SMTP(cfg.config.get('smtp_host', 'localhost'))
         s.sendmail(msg['From'], cfg.config.get(mail_list_cfg, ['chhsiao@appier.com']), msg.as_string())
         s.quit()
     except Exception as e:
